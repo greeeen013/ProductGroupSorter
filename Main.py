@@ -1,4 +1,3 @@
-# Main.py
 import os
 import time
 from Database import Database
@@ -29,18 +28,26 @@ def main():
 
         for product in products:
             siv_code = product['SivCode']
-            print(f"\nZpracovávám produkt: {siv_code}")
+            # === Nový blok: vytažení názvu i kategorie ===
+            name, category = scraper.get_product_info(siv_code)
 
-            category = scraper.get_category(siv_code)
+            print(f"\nZpracovávám produkt: {siv_code}")
+            if name:
+                print(f"→ Název: {name}")
+            else:
+                print("→ Název: (nenalezen)")
 
             if not category:
                 print("→ Kategorie nenalezena, přidávám do ignorovaných")
                 new_ignored.append(siv_code)
                 continue
 
-            # Překlad kategorie
+            # Překlad kategorie a kontrola duplicitního výpisu
             translated_category = scraper.translate_category(category)
-            print(f"→ Nalezena kategorie: {category} → {translated_category}")
+            if translated_category == category:
+                print(f"→ Nalezena kategorie: {category}")
+            else:
+                print(f"→ Nalezena kategorie: {category} → {translated_category}")
 
             updates.append((translated_category, siv_code))
 
