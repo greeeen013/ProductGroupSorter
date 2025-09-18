@@ -14,7 +14,7 @@ class Database:
     def connect(self):
         try:
             self.connection = pyodbc.connect(
-                f"DRIVER={{ODBC Driver 17 for SQL Server}};"
+                f"DRIVER={{SQL Server}};"
                 f"SERVER={os.getenv('DB_SERVER')};"
                 f"DATABASE={os.getenv('DB_DATABASE')};"
                 f"UID={os.getenv('DB_USERNAME')};"
